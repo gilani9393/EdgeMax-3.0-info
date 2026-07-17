@@ -24,3 +24,20 @@ autonomous sessions.
   against the actual code before being trusted — this caught a real production
   bug (a PD Arrays detection function left structurally unreachable) that test
   logs alone did not surface.
+
+
+EdgeMax 3.0 — Trading Operating System
+Core mission: Centralized platform for collecting market data, executing broker-side commands, and analyzing trading infrastructure across multiple terminals (MT5, cTrader) and data sources.
+
+Key operational components:
+Edge Collector (Feeder) — Windows service that polls MT5, collects technical/fundamental data, and spools it durably for uplink
+Central Backend (Server) — Rust HTTP API that journals all ingress, persists to PostgreSQL, runs market analysis workers, and serves query surfaces
+Terminal Connectors — MT5 Expert Advisor + cTrader cBot that poll for signed commands and report account facts back to the server
+Web Dashboard — React SPA with role-gated workspaces for Signal Desk operators, admins, and partners
+Reliability guarantees:
+Durability: All work is journaled (JSONL append-only) before mutation
+Idempotency: Replay-safe commands with HMAC signing and deduplication
+Recovery: Server restarts reconcile pending commands; Feeder has transactional outbox
+Deployment:
+Linux server (Rust + PostgreSQL) with production scripts for full provisioning, TLS termination via nginx, and Feeder uplink via Cloudflare Tunnel.
+

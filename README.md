@@ -1,6 +1,6 @@
 # EdgeMax-3.0-info
 EdgeMax - Trading Oprating System
-## Built with Codex & GPT-5.5
+## Built with Codex & GPT-5.6
 
 EdgeMax 3.0's entire Rust codebase was built through AI-assisted development using
 Codex (GPT-5.6 Extra High) as the primary implementation agent across extended
